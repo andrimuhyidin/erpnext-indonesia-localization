@@ -15,6 +15,15 @@ from requests.exceptions import RequestException, Timeout, ConnectionError, HTTP
 from frappe import _
 from typing import Dict, Any, Optional, Tuple
 
+from erpnext_indonesia_localization.utils.exceptions import (
+    PajakioAPIError,
+    PajakioConnectionError,
+    PajakioTimeoutError,
+    PajakioAuthenticationError,
+    MissingAPIKeyError,
+    MissingURLConfigError,
+)
+
 
 def get_pajakio_headers() -> Dict[str, str]:
 	"""
@@ -115,7 +124,7 @@ def handle_pajakio_error(error: Exception, context: str = "") -> str:
 					error_data = error.response.json()
 					if isinstance(error_data, dict) and 'message' in error_data:
 						return _("Pajak.io API Error: {0}").format(error_data['message'])
-				except:
+				except (ValueError, json.JSONDecodeError, AttributeError):
 					pass
 			
 			return _("HTTP error from Pajak.io API: {0}").format(str(error))

@@ -1,3 +1,17 @@
+# Copyright (c) 2025, Agile Technica and contributors
+# For license information, please see license.txt
+
+"""
+Sales Invoice Document Events
+
+This module contains event handlers for Sales Invoice documents,
+including VAT Output Metadata creation and tax validation.
+"""
+
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Any, Optional
+
 import frappe
 from frappe.utils import cint
 from frappe import _
@@ -5,10 +19,13 @@ import re
 from erpnext_indonesia_localization.api import create_vat_output, verify_npwp, verify_nik
 from erpnext_indonesia_localization.utils.data import get_tax_prefix_code
 
+if TYPE_CHECKING:
+    from frappe.model.document import Document
+
 
 # Procedures to generate VOM doctype
 @frappe.whitelist()
-def procedure_to_create_vom(name, doctype):
+def procedure_to_create_vom(name: str, doctype: str) -> tuple[str, str]:
 	doc = frappe.get_doc(doctype, name)
 	indonesia_localization_settings = frappe.get_single('Indonesia Localization Settings')
 	NOFA_SOURCE = indonesia_localization_settings.tax_invoice_number_source.upper()
@@ -33,25 +50,24 @@ def procedure_to_create_vom(name, doctype):
 
 
 @frappe.whitelist()
-def create_vom_via_button(name, doctype):
+def create_vom_via_button(name: str, doctype: str) -> None:
+	"""Create VAT Output Metadata via button click with user notification."""
 	message, title = procedure_to_create_vom(name, doctype)
 	frappe.msgprint(
 		msg=message,
 		title=title
 	)
 
-	return
-
 
 @frappe.whitelist()
-def create_vom_via_cronjob(name, doctype):
+def create_vom_via_cronjob(name: str, doctype: str) -> None:
+	"""Create VAT Output Metadata via scheduled cronjob."""
 	procedure_to_create_vom(name, doctype)
 
-	return
-
 
 @frappe.whitelist()
-def link_tax_invoice_number(doc):
+def link_tax_invoice_number(doc: "Document") -> tuple[bool, str] | bool:
+	"""Link Tax Invoice Number to Sales Invoice."""
 	if doc.nomor_faktur:
 		incorrectly_linked = frappe.db.get_value('Tax Invoice Number', doc.nomor_faktur, 'sales_invoice') != doc.name
 		if incorrectly_linked:
@@ -75,8 +91,17 @@ def link_tax_invoice_number(doc):
 	return True, message
 
 
-def check_mandatory_fields(metadata_doc):
-	empty_mandatory_fields = []
+def check_mandatory_fields(metadata_doc: "Document") -> tuple[bool, list[str]]:
+	"""
+	Check if all mandatory fields are filled in VAT Output Metadata.
+
+	Args:
+		metadata_doc: VAT Output Metadata document
+
+	Returns:
+		Tuple of (safe_to_proceed, list_of_empty_fields)
+	"""
+	empty_mandatory_fields: list[str] = []
 	mandatory_fields = ['kdjenistransaksi', "nama", "alamatjalan", "tarifppn", "terminpembayaran"]
 	mandatory_item_fields = ['nama', 'harga', 'jumlah', 'dpp', 'ppn']
 

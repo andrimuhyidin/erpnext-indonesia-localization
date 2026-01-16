@@ -1,13 +1,28 @@
 # Copyright (c) 2025, Agile Technica and contributors
 # For license information, please see license.txt
 
+"""
+Purchase Invoice Document Events
+
+This module contains event handlers for Purchase Invoice documents,
+including VAT Input Metadata creation and e-Bupot generation.
+"""
+
+from __future__ import annotations
+
+import re
+from typing import TYPE_CHECKING, Any, Optional
+
 import frappe
 from frappe import _
 from frappe.utils import cint
 from ..doctype.vat_input_metadata.vat_input_metadata import create_vat_input_metadata
 
+if TYPE_CHECKING:
+    from frappe.model.document import Document
 
-def auto_create_vim_on_submit(doc, method):
+
+def auto_create_vim_on_submit(doc: "Document", method: Optional[str] = None) -> None:
 	"""
 	Auto-create VAT Input Metadata when Purchase Invoice is submitted.
 	Similar to auto_create_vom_on_submit for Sales Invoice.
@@ -54,20 +69,25 @@ def auto_create_vim_on_submit(doc, method):
 		)
 
 
-def validate_purchase_invoice_tax_data(doc, method):
+def validate_purchase_invoice_tax_data(doc: "Document", method: Optional[str] = None) -> None:
 	"""
 	Validate tax data for Purchase Invoice.
-	Similar to validate_tax_data_formats for Sales Invoice.
+
+	Args:
+		doc: Purchase Invoice document
+		method: Event method name (validate, on_submit, etc.)
+
+	Raises:
+		frappe.exceptions.ValidationError: If validation fails
 	"""
-	errors = []
-	
+	errors: list[str] = []
+
 	# Validate supplier tax data if supplier exists
 	if doc.supplier:
 		supplier_doc = frappe.get_doc("Supplier", doc.supplier)
-		
+
 		# Validate NPWP format (15 digits) if supplier has tax_id
 		if supplier_doc.tax_id:
-			import re
 			npwp_clean = re.sub(r'[.\-]', '', supplier_doc.tax_id)
 			if not re.match(r'^\d{15}$', npwp_clean):
 				errors.append(_("Supplier NPWP format is invalid. NPWP must be 15 digits. Current value: {0}").format(supplier_doc.tax_id))
@@ -84,11 +104,17 @@ def validate_purchase_invoice_tax_data(doc, method):
 		frappe.throw("<br>".join(errors), title=_("Data Validation Error"))
 
 
-def auto_create_ebupot_on_payment(doc, method):
+def auto_create_ebupot_on_payment(doc: "Document", method: Optional[str] = None) -> None:
 	"""
 	Auto-create Withholding Tax Certificate when Purchase Invoice is paid.
-	This function checks if there's withholding tax in the invoice and creates e-Bupot certificate.
-	Triggered on on_update_after_submit when outstanding_amount becomes 0.
+
+	This function checks if there's withholding tax in the invoice and
+	creates e-Bupot certificate. Triggered on on_update_after_submit
+	when outstanding_amount becomes 0.
+
+	Args:
+		doc: Purchase Invoice document
+		method: Event method name
 	"""
 	try:
 		# Only process if invoice is submitted
