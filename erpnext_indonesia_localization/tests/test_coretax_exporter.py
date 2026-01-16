@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import patch, MagicMock
-from erpnext_indonesia_localization.erpnext_indonesia_localization.doctype.coretax_xml_exporter.coretax_xml_exporter import get_preview_sales_invoice
-from erpnext_indonesia_localization.erpnext_indonesia_localization.doctype.coretax_xml_exporter.coretax_xml_exporter import CoretaxXMLExporter
+from erpnext_indonesia_localization.doctype.coretax_xml_exporter.coretax_xml_exporter import get_preview_sales_invoice
+from erpnext_indonesia_localization.doctype.coretax_xml_exporter.coretax_xml_exporter import CoretaxXMLExporter
 
 
 @patch("frappe.get_value")

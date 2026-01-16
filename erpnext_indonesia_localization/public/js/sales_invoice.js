@@ -18,7 +18,16 @@ frappe.ui.form.on('Sales Invoice', {
         }
 
         clear_coretax_related_fields(frm);
-    }
+    },
+	setup: function (frm) {
+		hide_indonesia_fields_if_needed(frm, "Sales Invoice", frm.doc.company);
+	},
+	refresh: function (frm) {
+		hide_indonesia_fields_if_needed(frm, "Sales Invoice", frm.doc.company);
+	},
+	company: function (frm) {
+		hide_indonesia_fields_if_needed(frm, "Sales Invoice", frm.doc.company);
+	}
 })
 
 function clear_coretax_related_fields(frm) {
@@ -36,9 +45,17 @@ function set_sales_taxes_template_values(frm, filters) {
                         filters,
                         ['transaction_code', 'tax_additional_info', 'tax_facility_stamp'])
     .then(r => {
-        let values = r.message;
-        frm.set_value('transaction_code', values.transaction_code);
-        frm.set_value('tax_additional_info', values.tax_additional_info);
-        frm.set_value('tax_facility_stamp', values.tax_facility_stamp);
+        if (r && r.message) {
+            let values = r.message;
+            if (values) {
+                frm.set_value('transaction_code', values.transaction_code);
+                frm.set_value('tax_additional_info', values.tax_additional_info);
+                frm.set_value('tax_facility_stamp', values.tax_facility_stamp);
+            }
+        }
+    })
+    .catch(err => {
+        // Error handling for v16 compatibility
+        console.error('Error fetching Sales Taxes and Charges Template:', err);
     });
 };

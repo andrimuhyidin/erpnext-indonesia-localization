@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import patch, MagicMock, ANY
 
-from erpnext_indonesia_localization.erpnext_indonesia_localization.doctype.coretax_importer.coretax_importer import CoreTaxImporter, update_sales_invoice_from_xlsx, check_empty_value
+from erpnext_indonesia_localization.doctype.coretax_importer.coretax_importer import CoreTaxImporter, update_sales_invoice_from_xlsx, check_empty_value
 
 
 mock_preview_data = [
@@ -15,7 +15,7 @@ mock_preview_data_more_than_ten = [["Header1", "Header2"]] + [["Row" + str(i), "
 
 
 @patch(
-	"erpnext_indonesia_localization.erpnext_indonesia_localization.doctype.coretax_importer.coretax_importer.read_xlsx_file_from_attached_file")
+	"erpnext_indonesia_localization.doctype.coretax_importer.coretax_importer.read_xlsx_file_from_attached_file")
 def test_generate_preview_with_less_than_equal_ten_row(mock_read_xlsx):
 	"""Test the generate_preview method with a small dataset (less than 10 rows)"""
 	# Arrange
@@ -34,7 +34,7 @@ def test_generate_preview_with_less_than_equal_ten_row(mock_read_xlsx):
 	assert "Showing 3 out of 3 row(s)" in result
 
 @patch(
-	"erpnext_indonesia_localization.erpnext_indonesia_localization.doctype.coretax_importer.coretax_importer.read_xlsx_file_from_attached_file")
+	"erpnext_indonesia_localization.doctype.coretax_importer.coretax_importer.read_xlsx_file_from_attached_file")
 def test_generate_preview_with_more_than_ten_row(mock_read_xlsx):
 	"""Test the generate_preview method with a dataset larger than 10 rows"""
 	# Arrange
@@ -53,7 +53,7 @@ def test_generate_preview_with_more_than_ten_row(mock_read_xlsx):
 
 
 @patch(
-	"erpnext_indonesia_localization.erpnext_indonesia_localization.doctype.coretax_importer.coretax_importer.read_xlsx_file_from_attached_file")
+	"erpnext_indonesia_localization.doctype.coretax_importer.coretax_importer.read_xlsx_file_from_attached_file")
 def test_generate_preview_with_empty_data(mock_read_xlsx):
 	"""Test the generate_preview method with empty data"""
 
@@ -70,7 +70,7 @@ def test_generate_preview_with_empty_data(mock_read_xlsx):
 	assert "Showing 0 out of 0 row(s)" in result
 
 @patch(
-	"erpnext_indonesia_localization.erpnext_indonesia_localization.doctype.coretax_importer.coretax_importer.read_xlsx_file_from_attached_file",
+	"erpnext_indonesia_localization.doctype.coretax_importer.coretax_importer.read_xlsx_file_from_attached_file",
 	side_effect=Exception("File error"))
 def test_generate_preview_with_file_error(mock_read_xlsx):
 	"""Test handling of file errors"""
@@ -88,10 +88,10 @@ def test_generate_preview_with_file_error(mock_read_xlsx):
 	mock_read_xlsx.assert_called_once_with(file_url=file_url)
 
 
-@patch("erpnext_indonesia_localization.erpnext_indonesia_localization.doctype.coretax_importer.coretax_importer.getdate")
-@patch("erpnext_indonesia_localization.erpnext_indonesia_localization.doctype.coretax_importer.coretax_importer.frappe")
+@patch("erpnext_indonesia_localization.doctype.coretax_importer.coretax_importer.getdate")
+@patch("erpnext_indonesia_localization.doctype.coretax_importer.coretax_importer.frappe")
 @patch(
-	"erpnext_indonesia_localization.erpnext_indonesia_localization.doctype.coretax_importer.coretax_importer.read_xlsx_file_from_attached_file")
+	"erpnext_indonesia_localization.doctype.coretax_importer.coretax_importer.read_xlsx_file_from_attached_file")
 def test_update_sales_invoice_success(mock_read_xlsx, mock_frappe, mock_getdate):
 	mock_read_xlsx.return_value = mock_preview_data
 	mock_frappe.db.exists.return_value = True
@@ -107,9 +107,9 @@ def test_update_sales_invoice_success(mock_read_xlsx, mock_frappe, mock_getdate)
 	})
 
 
-@patch("erpnext_indonesia_localization.erpnext_indonesia_localization.doctype.coretax_importer.coretax_importer.frappe")
+@patch("erpnext_indonesia_localization.doctype.coretax_importer.coretax_importer.frappe")
 @patch(
-	"erpnext_indonesia_localization.erpnext_indonesia_localization.doctype.coretax_importer.coretax_importer.read_xlsx_file_from_attached_file")
+	"erpnext_indonesia_localization.doctype.coretax_importer.coretax_importer.read_xlsx_file_from_attached_file")
 def test_update_sales_invoice_failed(mock_read_xlsx, mock_frappe):
 	mock_read_xlsx.return_value = mock_preview_data
 	mock_frappe.db.exists.return_value = False
@@ -124,10 +124,10 @@ def test_update_sales_invoice_failed(mock_read_xlsx, mock_frappe):
 	})
 
 
-@patch("erpnext_indonesia_localization.erpnext_indonesia_localization.doctype.coretax_importer.coretax_importer.getdate")
-@patch("erpnext_indonesia_localization.erpnext_indonesia_localization.doctype.coretax_importer.coretax_importer.frappe")
+@patch("erpnext_indonesia_localization.doctype.coretax_importer.coretax_importer.getdate")
+@patch("erpnext_indonesia_localization.doctype.coretax_importer.coretax_importer.frappe")
 @patch(
-	"erpnext_indonesia_localization.erpnext_indonesia_localization.doctype.coretax_importer.coretax_importer.read_xlsx_file_from_attached_file")
+	"erpnext_indonesia_localization.doctype.coretax_importer.coretax_importer.read_xlsx_file_from_attached_file")
 def test_update_sales_invoice_validation_error(mock_read_xlsx, mock_frappe, mock_getdate):
 	mock_read_xlsx.return_value = mock_preview_data
 	mock_frappe.exceptions.DoesNotExistError = Exception

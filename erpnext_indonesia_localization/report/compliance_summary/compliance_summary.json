@@ -1,0 +1,34 @@
+{
+ "add_total_row": 1,
+ "columns": [],
+ "creation": "2025-01-01 00:00:00.000000",
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letterhead": null,
+ "modified": "2025-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Erpnext Indonesia Localization",
+ "name": "Compliance Summary",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "SELECT\n    'VAT Output' AS \"Type::120\",\n    COUNT(CASE WHEN vom.status = 'Approved' AND vom.vat_upload_success = 1 THEN 1 END) AS \"Uploaded:Int:100\",\n    COUNT(CASE WHEN vom.status = 'Approved' AND vom.vat_upload_success = 0 AND vom.transactionid != '' THEN 1 END) AS \"Pending Upload:Int:120\",\n    COUNT(CASE WHEN vom.status = 'To Be Reviewed' THEN 1 END) AS \"Pending Review:Int:120\",\n    COUNT(CASE WHEN vom.status = 'Rejected' THEN 1 END) AS \"Rejected:Int:100\",\n    COUNT(*) AS \"Total:Int:100\"\nFROM\n    `tabVAT Output Metadata` vom\nWHERE\n    vom.docstatus = 0\nUNION ALL\nSELECT\n    'VAT Input' AS \"Type::120\",\n    COUNT(CASE WHEN vim.status = 'Approved' AND vim.vat_upload_success = 1 THEN 1 END) AS \"Uploaded:Int:100\",\n    COUNT(CASE WHEN vim.status = 'Approved' AND vim.vat_upload_success = 0 AND vim.transactionid != '' THEN 1 END) AS \"Pending Upload:Int:120\",\n    COUNT(CASE WHEN vim.status = 'To Be Reviewed' THEN 1 END) AS \"Pending Review:Int:120\",\n    COUNT(CASE WHEN vim.status = 'Rejected' THEN 1 END) AS \"Rejected:Int:100\",\n    COUNT(*) AS \"Total:Int:100\"\nFROM\n    `tabVAT Input Metadata` vim\nWHERE\n    vim.docstatus = 0\nUNION ALL\nSELECT\n    'Withholding Tax' AS \"Type::120\",\n    COUNT(CASE WHEN wtc.xml_export_status = 'Exported' THEN 1 END) AS \"Uploaded:Int:100\",\n    COUNT(CASE WHEN wtc.status = 'Submitted' AND wtc.xml_export_status != 'Exported' AND wtc.transactionid != '' THEN 1 END) AS \"Pending Upload:Int:120\",\n    COUNT(CASE WHEN wtc.status = 'Draft' THEN 1 END) AS \"Pending Review:Int:120\",\n    0 AS \"Rejected:Int:100\",\n    COUNT(*) AS \"Total:Int:100\"\nFROM\n    `tabWithholding Tax Certificate` wtc\nWHERE\n    wtc.docstatus = 0\n",
+ "ref_doctype": "",
+ "report_name": "Compliance Summary",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "Accounts Manager"
+  },
+  {
+   "role": "Accounts User"
+  },
+  {
+   "role": "System Manager"
+  }
+ ],
+ "timeout": 0
+}

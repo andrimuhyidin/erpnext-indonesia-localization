@@ -1,0 +1,122 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:signer_name",
+ "creation": "2025-01-01 00:00:00.000000",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "signer_info_section",
+  "signer_name",
+  "signer_npwp",
+  "signer_position",
+  "signer_email",
+  "signer_phone",
+  "is_active",
+  "api_section",
+  "signer_id",
+  "api_response",
+  "last_synced"
+ ],
+ "fields": [
+  {
+   "fieldname": "signer_info_section",
+   "fieldtype": "Section Break",
+   "label": "Signer Information"
+  },
+  {
+   "fieldname": "signer_name",
+   "fieldtype": "Data",
+   "label": "Signer Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "signer_npwp",
+   "fieldtype": "Data",
+   "label": "NPWP",
+   "reqd": 1
+  },
+  {
+   "fieldname": "signer_position",
+   "fieldtype": "Data",
+   "label": "Position",
+   "reqd": 1
+  },
+  {
+   "fieldname": "signer_email",
+   "fieldtype": "Data",
+   "label": "Email"
+  },
+  {
+   "fieldname": "signer_phone",
+   "fieldtype": "Data",
+   "label": "Phone"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "label": "Is Active"
+  },
+  {
+   "fieldname": "api_section",
+   "fieldtype": "Section Break",
+   "label": "API Information"
+  },
+  {
+   "fieldname": "signer_id",
+   "fieldtype": "Data",
+   "label": "Signer ID (from Pajak.io)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "api_response",
+   "fieldtype": "Small Text",
+   "label": "API Response",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_synced",
+   "fieldtype": "Datetime",
+   "label": "Last Synced",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Erpnext Indonesia Localization",
+ "name": "Signer",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

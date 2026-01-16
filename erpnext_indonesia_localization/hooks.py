@@ -157,34 +157,44 @@ after_install = "erpnext_indonesia_localization.utils.install.init_setup_eil"
 doc_events = {
 	"Sales Invoice": {
 		"before_cancel": [
-			"erpnext_indonesia_localization.erpnext_indonesia_localization.doc_events.sales_invoice.set_tin_status_before_cancel_si",
-			"erpnext_indonesia_localization.erpnext_indonesia_localization.doc_events.sales_invoice.set_si_had_tin_before"
+			"erpnext_indonesia_localization.doc_events.sales_invoice.set_tin_status_before_cancel_si",
+			"erpnext_indonesia_localization.doc_events.sales_invoice.set_si_had_tin_before"
 		],
-		"before_save": "erpnext_indonesia_localization.erpnext_indonesia_localization.doc_events.sales_invoice.calculate_other_tax_base_amount_and_total",
-		"validate": "erpnext_indonesia_localization.erpnext_indonesia_localization.doc_events.sales_invoice.set_sales_taxes_template_values"
+		"before_save": "erpnext_indonesia_localization.doc_events.sales_invoice.calculate_other_tax_base_amount_and_total",
+		"validate": [
+			"erpnext_indonesia_localization.doc_events.sales_invoice.set_sales_taxes_template_values",
+			"erpnext_indonesia_localization.doc_events.sales_invoice.validate_tax_data_formats"
+		],
+		"on_submit": "erpnext_indonesia_localization.doc_events.sales_invoice.auto_create_vom_on_submit"
+	},
+	"Purchase Invoice": {
+		"validate": "erpnext_indonesia_localization.doc_events.purchase_invoice.validate_purchase_invoice_tax_data",
+		"on_submit": "erpnext_indonesia_localization.doc_events.purchase_invoice.auto_create_vim_on_submit",
+		"on_update_after_submit": "erpnext_indonesia_localization.doc_events.purchase_invoice.auto_create_ebupot_on_payment"
+	},
+	"VAT Output Metadata": {
+		"on_update": [
+			"erpnext_indonesia_localization.notifications.vat_output_status.notify_on_vat_output_approval",
+			"erpnext_indonesia_localization.utils.audit.log_vat_output_status_change",
+			"erpnext_indonesia_localization.utils.audit.log_nofa_assignment"
+		]
+	},
+	"Sales Invoice": {
+		"on_update": "erpnext_indonesia_localization.utils.audit.log_tax_invoice_number_link"
 	}
 }
 
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"erpnext_indonesia_localization.tasks.all"
-# 	],
-# 	"daily": [
-# 		"erpnext_indonesia_localization.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"erpnext_indonesia_localization.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"erpnext_indonesia_localization.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"erpnext_indonesia_localization.tasks.monthly"
-# 	],
-# }
+scheduler_events = {
+	"daily": [
+		"erpnext_indonesia_localization.tasks.daily.run_daily_tasks"
+	],
+	"hourly": [
+		"erpnext_indonesia_localization.tasks.hourly.run_hourly_tasks"
+	]
+}
 
 # Testing
 # -------

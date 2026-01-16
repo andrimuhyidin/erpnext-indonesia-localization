@@ -1,0 +1,145 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2025-01-01 00:00:00.000000",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "welcome_section",
+  "welcome_message",
+  "step_1_section",
+  "step_1_company",
+  "step_1_tax_id",
+  "step_1_nitku",
+  "step_2_section",
+  "step_2_pajakio_api_key",
+  "step_2_pajakio_urls",
+  "step_3_section",
+  "step_3_tax_invoice_source",
+  "step_3_auto_create_vom",
+  "step_4_section",
+  "step_4_complete",
+  "setup_status"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "SETUP-.YYYY.-.#####"
+  },
+  {
+   "fieldname": "welcome_section",
+   "fieldtype": "Section Break",
+   "label": "Welcome to Indonesia Localization Setup"
+  },
+  {
+   "default": "Welcome to Indonesia Localization Setup Wizard. This wizard will guide you through the initial configuration of the Indonesia Localization module.",
+   "fieldname": "welcome_message",
+   "fieldtype": "Small Text",
+   "label": "Welcome Message",
+   "read_only": 1
+  },
+  {
+   "fieldname": "step_1_section",
+   "fieldtype": "Section Break",
+   "label": "Step 1: Company Information"
+  },
+  {
+   "fieldname": "step_1_company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "step_1_tax_id",
+   "fieldtype": "Data",
+   "label": "Company Tax ID (NPWP)"
+  },
+  {
+   "fieldname": "step_1_nitku",
+   "fieldtype": "Data",
+   "label": "Company NITKU"
+  },
+  {
+   "fieldname": "step_2_section",
+   "fieldtype": "Section Break",
+   "label": "Step 2: Pajak.io API Configuration"
+  },
+  {
+   "fieldname": "step_2_pajakio_api_key",
+   "fieldtype": "Password",
+   "label": "Pajak.io API Key"
+  },
+  {
+   "fieldname": "step_2_pajakio_urls",
+   "fieldtype": "Section Break",
+   "label": "Pajak.io API URLs"
+  },
+  {
+   "fieldname": "step_3_section",
+   "fieldtype": "Section Break",
+   "label": "Step 3: Tax Invoice Number Configuration"
+  },
+  {
+   "fieldname": "step_3_tax_invoice_source",
+   "fieldtype": "Select",
+   "label": "Tax Invoice Number Source",
+   "options": "PAJAK.IO\nTAX INVOICE NUMBER DOCTYPE"
+  },
+  {
+   "default": 0,
+   "fieldname": "step_3_auto_create_vom",
+   "fieldtype": "Check",
+   "label": "Auto Create VAT Output Metadata"
+  },
+  {
+   "fieldname": "step_4_section",
+   "fieldtype": "Section Break",
+   "label": "Step 4: Complete Setup"
+  },
+  {
+   "fieldname": "step_4_complete",
+   "fieldtype": "Button",
+   "label": "Complete Setup"
+  },
+  {
+   "fieldname": "setup_status",
+   "fieldtype": "Select",
+   "label": "Setup Status",
+   "options": "In Progress\nCompleted",
+   "default": "In Progress",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Erpnext Indonesia Localization",
+ "name": "Setup Wizard",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

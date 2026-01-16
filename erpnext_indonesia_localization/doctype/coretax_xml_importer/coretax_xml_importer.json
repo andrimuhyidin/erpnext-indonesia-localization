@@ -1,0 +1,138 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2025-01-01 00:00:00.000000",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "company",
+  "branch",
+  "status",
+  "get_purchase_invoice",
+  "column_break_oyt83",
+  "start_invoice_date",
+  "end_invoice_date",
+  "section_break_il2vq",
+  "purchase_invoice_list",
+  "html",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "VAT-IMP-.YYYY.-.#####"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_oyt83",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "label": "Branch",
+   "options": "Branch"
+  },
+  {
+   "fieldname": "start_invoice_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Start Invoice Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "end_invoice_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "End Invoice Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "purchase_invoice_list",
+   "fieldtype": "HTML",
+   "label": "Purchase Invoice List"
+  },
+  {
+   "fieldname": "section_break_il2vq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "\nIn Process\nSucceed\nFailed",
+   "read_only": 1
+  },
+  {
+   "fieldname": "get_purchase_invoice",
+   "fieldtype": "Button",
+   "label": "Get Purchase Invoice"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "html",
+   "fieldtype": "Code",
+   "hidden": 1,
+   "label": "Html",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Coretax XML Importer",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Erpnext Indonesia Localization",
+ "name": "Coretax XML Importer",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

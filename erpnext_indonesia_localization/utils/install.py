@@ -2,7 +2,17 @@ import frappe
 import os.path
 import shutil
 from frappe.utils import now
-from frappe.core.doctype.data_import.data_import import start_import
+
+# Try to import Data Import API - compatible with both v15 and v16
+try:
+	from frappe.core.doctype.data_import.data_import import start_import
+except ImportError:
+	# Fallback for v16+ if API path changes
+	try:
+		from frappe.core.doctype.data_import.importer import start_import
+	except ImportError:
+		# If direct import fails, use frappe.get_doc approach
+		start_import = None
 
 
 def init_setup_eil():
@@ -110,7 +120,7 @@ def create_sales_taxes_and_charges_templates():
 
 
 def import_coretax_master_data():
-	source_path = frappe.get_app_path("erpnext_indonesia_localization", "..", "coretax_reference_master_data")
+	source_path = frappe.get_app_path("erpnext_indonesia_localization", "..", "data", "coretax_reference_master_data")
 	public_path = frappe.get_site_path("public", "files")
 	master_data_files = {
 		"CoreTax Additional Info Ref": "CoreTax Additional Info Ref.xlsx",
@@ -154,14 +164,43 @@ def create_file_doc(filename):
 
 
 def create_run_doc_data_import(doctype, file_url):
-	data_import = frappe.get_doc({
-		"doctype": "Data Import",
-		"reference_doctype": doctype,
-		"import_type": "Insert New Records",
-		"submit_after_import": 0,
-		"import_file": file_url
-	})
+	"""
+	Create and run Data Import for CoreTax master data.
+	Compatible with Frappe v15 and v16.
+	"""
+	try:
+		data_import = frappe.get_doc({
+			"doctype": "Data Import",
+			"reference_doctype": doctype,
+			"import_type": "Insert New Records",
+			"submit_after_import": 0,
+			"import_file": file_url
+		})
 
-	data_import.insert(ignore_permissions=True)
+		data_import.insert(ignore_permissions=True)
 
-	start_import(data_import.name)
+		# Try to start import using available API
+		if start_import:
+			start_import(data_import.name)
+		else:
+			# Fallback: Use frappe.get_doc and call import method directly
+			data_import_doc = frappe.get_doc("Data Import", data_import.name)
+			if hasattr(data_import_doc, 'start_import'):
+				data_import_doc.start_import()
+			elif hasattr(data_import_doc, 'import_doc'):
+				data_import_doc.import_doc()
+			else:
+				# Last resort: submit the document if it has submit method
+				if data_import_doc.meta.is_submittable:
+					data_import_doc.submit()
+				else:
+					frappe.log_error(
+						f"Unable to start import for {doctype}. Please import manually.",
+						"CoreTax Master Data Import"
+					)
+	except Exception as e:
+		frappe.log_error(
+			f"Failed to create or run Data Import for {doctype}: {str(e)}",
+			"CoreTax Master Data Import"
+		)
+		raise

@@ -1,0 +1,262 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{noinvoice}",
+ "creation": "2025-01-01 00:00:00.000000",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "status",
+  "parent_doctype",
+  "transactionid",
+  "vat_upload_success",
+  "create_vat_response",
+  "vat_input_details_section",
+  "nofa",
+  "noinvoice",
+  "kdjenistransaksi",
+  "idketerangantambahan",
+  "tab_break_mvxtv",
+  "tanggalfaktur",
+  "masapajak",
+  "tahunpajak",
+  "tarifppn",
+  "terminpembayaran",
+  "termindpp",
+  "terminppn",
+  "terminppnbm",
+  "section_break_x1axf",
+  "barangjasa",
+  "lawantransaksi_section",
+  "npwp",
+  "nikpassport",
+  "nama",
+  "suppliername",
+  "column_break_zrorx",
+  "alamatjalan",
+  "kota",
+  "telp"
+ ],
+ "fields": [
+  {
+   "fieldname": "vat_input_details_section",
+   "fieldtype": "Section Break",
+   "label": "VAT Input Details"
+  },
+  {
+   "fieldname": "nofa",
+   "fieldtype": "Data",
+   "label": "nofa"
+  },
+  {
+   "fieldname": "noinvoice",
+   "fieldtype": "Link",
+   "label": "noInvoice",
+   "options": "Purchase Invoice"
+  },
+  {
+   "fieldname": "kdjenistransaksi",
+   "fieldtype": "Data",
+   "label": "kdJenisTransaksi"
+  },
+  {
+   "fieldname": "idketerangantambahan",
+   "fieldtype": "Data",
+   "label": "idKeteranganTambahan"
+  },
+  {
+   "fieldname": "tab_break_mvxtv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "tanggalfaktur",
+   "fieldtype": "Date",
+   "label": "tanggalFaktur"
+  },
+  {
+   "fieldname": "masapajak",
+   "fieldtype": "Data",
+   "label": "masaPajak"
+  },
+  {
+   "fieldname": "tahunpajak",
+   "fieldtype": "Data",
+   "label": "tahunPajak"
+  },
+  {
+   "fieldname": "tarifppn",
+   "fieldtype": "Data",
+   "label": "tarifPpn"
+  },
+  {
+   "fieldname": "terminpembayaran",
+   "fieldtype": "Data",
+   "label": "terminPembayaran"
+  },
+  {
+   "fieldname": "section_break_x1axf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "barangjasa",
+   "fieldtype": "Table",
+   "label": "barangJasa",
+   "options": "VIM barangjasa item"
+  },
+  {
+   "fieldname": "lawantransaksi_section",
+   "fieldtype": "Section Break",
+   "label": "lawanTransaksi"
+  },
+  {
+   "fieldname": "npwp",
+   "fieldtype": "Data",
+   "label": "npwp"
+  },
+  {
+   "fieldname": "nikpassport",
+   "fieldtype": "Data",
+   "label": "nikPassport"
+  },
+  {
+   "fieldname": "nama",
+   "fieldtype": "Link",
+   "label": "nama",
+   "options": "Supplier"
+  },
+  {
+   "fieldname": "column_break_zrorx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "alamatjalan",
+   "fieldtype": "Data",
+   "label": "alamatJalan"
+  },
+  {
+   "fieldname": "kota",
+   "fieldtype": "Data",
+   "label": "kota"
+  },
+  {
+   "fieldname": "telp",
+   "fieldtype": "Data",
+   "label": "telp"
+  },
+  {
+   "depends_on": "eval:doc.terminpembayaran != 0;",
+   "fieldname": "termindpp",
+   "fieldtype": "Data",
+   "label": "terminDpp",
+   "mandatory_depends_on": "eval:doc.terminpembayaran != 0;"
+  },
+  {
+   "depends_on": "eval:doc.terminpembayaran != 0;",
+   "fieldname": "terminppn",
+   "fieldtype": "Data",
+   "label": "terminPpn",
+   "mandatory_depends_on": "eval:doc.terminpembayaran != 0;"
+  },
+  {
+   "depends_on": "eval:doc.terminpembayaran != 0;",
+   "fieldname": "terminppnbm",
+   "fieldtype": "Data",
+   "label": "terminPpnbm",
+   "mandatory_depends_on": "eval:doc.terminpembayaran != 0;"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Draft\nTo Be Reviewed\nApproved\nRejected",
+   "default": "Draft"
+  },
+  {
+   "fieldname": "parent_doctype",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Parent Doctype",
+   "read_only": 1
+  },
+  {
+   "fieldname": "transactionid",
+   "fieldtype": "Data",
+   "label": "Transaction ID",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "vat_upload_success",
+   "fieldtype": "Check",
+   "label": "VAT Upload Success"
+  },
+  {
+   "fieldname": "create_vat_response",
+   "fieldtype": "Small Text",
+   "label": "Create VAT Response",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "nama.supplier_name",
+   "fieldname": "suppliername",
+   "fieldtype": "Data",
+   "label": "supplierName",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Erpnext Indonesia Localization",
+ "name": "VAT Input Metadata",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [
+  {
+   "color": "Blue",
+   "title": "To Be Reviewed"
+  },
+  {
+   "color": "Orange",
+   "title": "Draft"
+  },
+  {
+   "color": "Green",
+   "title": "Approved"
+  },
+  {
+   "color": "Red",
+   "title": "Rejected"
+  }
+ ],
+ "track_changes": 1
+}

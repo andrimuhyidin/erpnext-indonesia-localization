@@ -1,0 +1,31 @@
+{
+ "add_total_row": 0,
+ "columns": [],
+ "creation": "2025-01-01 00:00:00.000000",
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letterhead": null,
+ "modified": "2025-01-01 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Erpnext Indonesia Localization",
+ "name": "PPN Rekonsiliasi",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "SELECT\r\n    'PPN Keluaran' AS \"Type::100\",\r\n    si.name AS \"Invoice:Link/Sales Invoice:150\",\r\n    si.posting_date AS \"Date:Date:100\",\r\n    si.total_taxes_and_charges AS \"Amount:Currency:150\"\r\nFROM\r\n    `tabSales Invoice` si\r\nWHERE\r\n    si.docstatus = 1\r\n    AND si.total_taxes_and_charges > 0\r\nUNION ALL\r\nSELECT\r\n    'PPN Masukan' AS \"Type::100\",\r\n    pi.name AS \"Invoice:Link/Purchase Invoice:150\",\r\n    pi.bill_date AS \"Date:Date:100\",\r\n    -pi.total_taxes_and_charges AS \"Amount:Currency:150\"\r\nFROM\r\n    `tabPurchase Invoice` pi\r\nWHERE\r\n    pi.docstatus = 1\r\n    AND pi.total_taxes_and_charges > 0\r\nORDER BY\r\n    Date DESC\r\n",
+ "ref_doctype": "Sales Invoice",
+ "report_name": "PPN Rekonsiliasi",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "Accounts Manager"
+  },
+  {
+   "role": "Accounts User"
+  }
+ ],
+ "timeout": 0
+}

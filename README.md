@@ -40,7 +40,7 @@ The **Coretax Importer** enables users to import VAT Output data from DJP (in Ex
 
 ## Installation
 
-For detailed instructions, please [refer to the documentation](Installation%20Documentation%20-%20ENG.pdf)
+For detailed instructions, please [refer to the documentation](docs/manuals/Installation%20Documentation%20-%20ENG.pdf)
 
 <br />
 
@@ -48,7 +48,7 @@ For detailed instructions, please [refer to the documentation](Installation%20Do
 
 
 ### 1. Master Data Setup:
-Before starting the eFaktur process, make sure the [following reference data](coretax-reference-master-data) has been imported into your ERPNext system use [data import tools](https://docs.frappe.io/erpnext/user/manual/en/data-import):
+Before starting the eFaktur process, make sure the [following reference data](data/coretax_reference_master_data) has been imported into your ERPNext system use [data import tools](https://docs.frappe.io/erpnext/user/manual/en/data-import):
 - CoreTax Transaction Code Ref
 - CoreTax Barang Jasa Ref
 - CoreTax Facility Stamp Ref
