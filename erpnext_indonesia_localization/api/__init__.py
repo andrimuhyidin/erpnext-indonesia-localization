@@ -48,8 +48,6 @@ from erpnext_indonesia_localization.api.pajakio import (
 	list_income_recipient,
 	# Signer functions
 	create_signer,
-	update_signer,
-	delete_signer,
 	list_signer,
 	set_active_signer
 )
@@ -93,8 +91,6 @@ __all__ = [
 	"list_income_recipient",
 	# Signer
 	"create_signer",
-	"update_signer",
-	"delete_signer",
 	"list_signer",
 	"set_active_signer"
 ]
