@@ -8,7 +8,7 @@
  "label": "Tax Dashboard",
  "modified": "2025-01-01 00:00:00.000000",
  "modified_by": "Administrator",
- "module": "Erpnext Indonesia Localization",
+ "module": "erpnext_indonesia_localization",
  "name": "Tax Dashboard",
  "owner": "Administrator",
  "parent_page": "",

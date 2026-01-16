@@ -1,1 +1,1 @@
-Erpnext Indonesia Localization
+erpnext_indonesia_localization

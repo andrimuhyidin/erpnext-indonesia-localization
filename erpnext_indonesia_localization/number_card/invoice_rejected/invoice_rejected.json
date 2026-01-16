@@ -13,7 +13,7 @@
  "label": "Invoice Rejected",
  "modified": "2025-01-01 00:00:00.000000",
  "modified_by": "Administrator",
- "module": "Erpnext Indonesia Localization",
+ "module": "erpnext_indonesia_localization",
  "name": "Invoice Rejected",
  "owner": "Administrator",
  "parent_document_type": "",

@@ -6,13 +6,13 @@ ERPNext Indonesia Localization - Main Module
 
 This is the main module for ERPNext Indonesia Localization app.
 All core functionality has been moved to root level for better organization.
-This module exists for Frappe module compatibility.
+This module exists for Frappe module compatibility and discovery.
+
+Frappe requires this module structure for proper module sync during app installation.
+The actual functionality is in the root level modules (api, doc_events, etc.).
 """
 
-# Re-export from root level modules for backward compatibility
-from erpnext_indonesia_localization.api import *
-from erpnext_indonesia_localization.doc_events import *
+# This module is intentionally minimal - it exists only for Frappe module discovery
+# All actual functionality is in root level modules
 
-__all__ = [
-	# Will be populated from submodules
-]
+__all__ = []

@@ -505,7 +505,7 @@
  "links": [],
  "modified": "2024-11-21 17:54:47.084594",
  "modified_by": "Administrator",
- "module": "Erpnext Indonesia Localization",
+ "module": "erpnext_indonesia_localization",
  "name": "Indonesia Localization Settings",
  "owner": "Administrator",
  "permissions": [
