@@ -3,6 +3,7 @@
 
 import frappe
 from frappe import _
+from frappe.query_builder import Order
 
 
 def execute(filters=None):
@@ -59,38 +60,35 @@ def get_columns():
 	]
 
 
-def get_data(filters):
-	"""Get report data based on filters"""
-	conditions = "WHERE pi.docstatus = 1"
+	pi = frappe.qb.DocType("Purchase Invoice")
+	s = frappe.qb.DocType("Supplier")
 	
-	if filters.get("supplier"):
-		conditions += f" AND pi.supplier = '{filters.get('supplier')}'"
-	
-	if filters.get("from_date"):
-		conditions += f" AND pi.bill_date >= '{filters.get('from_date')}'"
-	
-	if filters.get("to_date"):
-		conditions += f" AND pi.bill_date <= '{filters.get('to_date')}'"
-	
-	if filters.get("company"):
-		conditions += f" AND pi.company = '{filters.get('company')}'"
-	
-	query = f"""
-		SELECT
+	query = (
+		frappe.qb.from_(pi)
+		.left_join(s).on(pi.supplier == s.name)
+		.select(
 			pi.supplier,
 			s.tax_id,
-			pi.name AS invoice_name,
+			pi.name.as_("invoice_name"),
 			pi.bill_no,
 			pi.bill_date,
 			pi.total_taxes_and_charges
-		FROM
-			`tabPurchase Invoice` pi
-		LEFT JOIN
-			`tabSupplier` s ON pi.supplier = s.name
-		{conditions}
-		ORDER BY
-			pi.bill_date DESC
-	"""
+		)
+		.where(pi.docstatus == 1)
+		.orderby(pi.bill_date, order=frappe.query_builder.Order.desc)
+	)
+
+	if filters.get("supplier"):
+		query = query.where(pi.supplier == filters.get("supplier"))
 	
-	data = frappe.db.sql(query, as_dict=True)
+	if filters.get("from_date"):
+		query = query.where(pi.bill_date >= filters.get("from_date"))
+	
+	if filters.get("to_date"):
+		query = query.where(pi.bill_date <= filters.get("to_date"))
+	
+	if filters.get("company"):
+		query = query.where(pi.company == filters.get("company"))
+	
+	data = query.run(as_dict=True)
 	return data
