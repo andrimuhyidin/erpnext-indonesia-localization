@@ -14,6 +14,7 @@ from frappe import _
 from frappe.model.document import Document
 from frappe.utils.data import get_datetime
 from frappe.exceptions import QueryDeadlockError
+from frappe.query_builder import Order
 # Use frappe.enqueue() directly for v16 compatibility instead of importing enqueue
 import time
 
@@ -27,13 +28,17 @@ from frappe.utils import floor, ceil, flt, cstr
 class TaxInvoiceExporter(Document):
 	def validate(self):
 		for si in self.sales_invoices:
-			if frappe.db.sql("""
-				SELECT name
-				FROM `tabTax Invoice Exporter Item`
-				WHERE sales_invoice = %s
-				AND parent != %s
-				AND docstatus != 2
-			""", (si.sales_invoice, self.name)):
+			# Refactored to QueryBuilder
+			tie_item = frappe.qb.DocType("Tax Invoice Exporter Item")
+			exists = (
+				frappe.qb.from_(tie_item)
+				.select(tie_item.name)
+				.where(tie_item.sales_invoice == si.sales_invoice)
+				.where(tie_item.parent != self.name)
+				.where(tie_item.docstatus != 2)
+			).run()
+
+			if exists:
 				frappe.throw(si.sales_invoice + _(" already has Tax Invoice Number"))
 
 	def before_submit(self):
@@ -57,16 +62,19 @@ class TaxInvoiceExporter(Document):
 		else:
 			tin_operand = f"= {repr(tax_invoice_numbers[0])}"
 
-		used_tax_invoice_numbers = frappe.db.sql(
-			f"""
-				SELECT `tax_invoice_number` FROM `tabTax Invoice Exporter Item` WHERE
-				`tabTax Invoice Exporter Item`.`tax_invoice_number` {tin_operand} AND
-				COALESCE(`tabTax Invoice Exporter Item`.`parent`, '') != {repr(self.name)} AND
-				`tabTax Invoice Exporter Item`.`is_invoice_cancelled` = 0.0 AND
-				COALESCE(`tabTax Invoice Exporter Item`.`docstatus`, 0) = 0.0
-				ORDER BY `tabTax Invoice Exporter Item`.`modified` DESC
-			""", pluck="tax_invoice_number"
+		# Refactored to QueryBuilder
+		tie_item = frappe.qb.DocType("Tax Invoice Exporter Item")
+		query = (
+			frappe.qb.from_(tie_item)
+			.select(tie_item.tax_invoice_number)
+			.where(tie_item.tax_invoice_number.isin(tax_invoice_numbers))
+			.where(frappe.qb.functions.Coalesce(tie_item.parent, "") != self.name)
+			.where(tie_item.is_invoice_cancelled == 0)
+			.where(frappe.qb.functions.Coalesce(tie_item.docstatus, 0) == 0)
+			.orderby(tie_item.modified, order=frappe.query_builder.Order.desc)
 		)
+		
+		used_tax_invoice_numbers = [d.tax_invoice_number for d in query.run(as_dict=True)]
 
 		if used_tax_invoice_numbers:
 			error_msg = _(
@@ -230,39 +238,25 @@ class TaxInvoiceExporter(Document):
 
 	def update_tin_doc(self, tin_doc_name, values, rename=True):
 
-		frappe.db.sql(
-			"""
-			UPDATE `tabTax Invoice Number`
-			SET
-				`tax_invoice_number` = %(tin)s,
-				`linked_datetime` = %(linked_datetime)s,
-				`status` = %(tin_status)s,
-				`linked_si` = %(linked_si)s
-			WHERE
-				`name` = %(tin_doc_name)s;
-			""",
-			{
-				"tin": values.get("tin"),
-				"linked_datetime": values.get("linked_datetime"),
-				"tin_status": values.get("tin_status"),
-				"linked_si": values.get("linked_si"),
-				"tin_doc_name": tin_doc_name
-			}
-		)
+		# Refactored to QueryBuilder
+		tin = frappe.qb.DocType("Tax Invoice Number")
+		(
+			frappe.qb.update(tin)
+			.set(tin.tax_invoice_number, values.get("tin"))
+			.set(tin.linked_datetime, values.get("linked_datetime"))
+			.set(tin.status, values.get("tin_status"))
+			.set(tin.linked_si, values.get("linked_si"))
+			.where(tin.name == tin_doc_name)
+		).run()
 
 		if values.get("list_of_sales_invoice"):
-			frappe.db.sql(
-				"""
-				INSERT INTO `tabList of Sales Invoice` (`parent`, `parentfield`, `parenttype`, `list_of_sales_invoice`)
-				VALUES (%(parent)s, %(parentfield)s, %(parenttype)s, %(list_of_sales_invoice)s);
-				""",
-				{
-					"parents": tin_doc_name,
-					"parentfield": "list_of_sales_invoice",
-					"parenttype": "Tax Invoice Number",
-					"list_of_sales_invoice": values.get("list_of_sales_invoice")
-				}
-			)
+			# Refactored to QueryBuilder
+			lsi = frappe.qb.DocType("List of Sales Invoice")
+			(
+				frappe.qb.into(lsi)
+				.columns(lsi.parent, lsi.parentfield, lsi.parenttype, lsi.list_of_sales_invoice)
+				.insert(tin_doc_name, "list_of_sales_invoice", "Tax Invoice Number", values.get("list_of_sales_invoice"))
+			).run()
 
 		# Commit the changes to the database
 		frappe.db.commit()
