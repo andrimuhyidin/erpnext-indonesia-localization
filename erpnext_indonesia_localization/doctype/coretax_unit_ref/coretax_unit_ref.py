@@ -6,4 +6,11 @@ from frappe.model.document import Document
 
 
 class CoreTaxUnitRef(Document):
+	"""
+	Coretax Unit Reference for unit of measure codes.
+	
+	Stores reference codes for units of measure according to
+	Coretax system requirements for tax invoice generation.
+	"""
+
 	pass

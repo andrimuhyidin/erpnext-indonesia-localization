@@ -8,6 +8,13 @@ import re
 
 
 class VATOutputReturn(Document):
+	"""
+	VAT Output Return (Faktur Pajak Keluaran) for sales invoice VAT.
+	
+	Represents individual VAT output documents linked to sales invoices
+	with customer tax identification and transaction details.
+	"""
+
 	def validate(self):
 		"""Validate VAT Output Return document"""
 		errors = []

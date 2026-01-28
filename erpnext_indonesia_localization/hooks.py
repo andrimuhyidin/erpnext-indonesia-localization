@@ -11,15 +11,14 @@ app_license = "agpl-3.0"
 # required_apps = []
 
 # Each item in the list will be shown as an app in the apps page
-# add_to_apps_screen = [
-# 	{
-# 		"name": "erpnext_indonesia_localization",
-# 		"logo": "/assets/erpnext_indonesia_localization/logo.png",
-# 		"title": "Erpnext Indonesia Localization",
-# 		"route": "/erpnext_indonesia_localization",
-# 		"has_permission": "erpnext_indonesia_localization.api.permission.has_app_permission"
-# 	}
-# ]
+add_to_apps_screen = [
+	{
+		"name": "erpnext_indonesia_localization",
+		"logo": "/assets/erpnext_indonesia_localization/images/logo.png",
+		"title": "Indonesia Localization",
+		"route": "/app/indonesia-localization",
+	}
+]
 
 # Includes in <head>
 # ------------------
@@ -165,7 +164,8 @@ doc_events = {
 			"erpnext_indonesia_localization.doc_events.sales_invoice.set_sales_taxes_template_values",
 			"erpnext_indonesia_localization.doc_events.sales_invoice.validate_tax_data_formats"
 		],
-		"on_submit": "erpnext_indonesia_localization.doc_events.sales_invoice.auto_create_vom_on_submit"
+		"on_submit": "erpnext_indonesia_localization.doc_events.sales_invoice.auto_create_vom_on_submit",
+		"on_update": "erpnext_indonesia_localization.utils.audit.log_tax_invoice_number_link"
 	},
 	"Purchase Invoice": {
 		"validate": "erpnext_indonesia_localization.doc_events.purchase_invoice.validate_purchase_invoice_tax_data",
@@ -178,9 +178,6 @@ doc_events = {
 			"erpnext_indonesia_localization.utils.audit.log_vat_output_status_change",
 			"erpnext_indonesia_localization.utils.audit.log_nofa_assignment"
 		]
-	},
-	"Sales Invoice": {
-		"on_update": "erpnext_indonesia_localization.utils.audit.log_tax_invoice_number_link"
 	},
 	"Address": {
 		"validate": "erpnext_indonesia_localization.doc_events.address.validate_address_hierarchy"

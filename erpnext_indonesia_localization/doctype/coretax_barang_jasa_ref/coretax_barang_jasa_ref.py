@@ -6,4 +6,11 @@ from frappe.model.document import Document
 
 
 class CoreTaxBarangJasaRef(Document):
+	"""
+	Coretax Barang Jasa Reference for goods/services classification.
+	
+	Stores reference codes for classifying goods and services
+	according to Coretax system requirements for tax reporting.
+	"""
+
 	pass

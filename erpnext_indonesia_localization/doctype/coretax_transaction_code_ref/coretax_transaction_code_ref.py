@@ -6,4 +6,11 @@ from frappe.model.document import Document
 
 
 class CoreTaxTransactionCodeRef(Document):
+	"""
+	Coretax Transaction Code Reference for invoice type codes.
+	
+	Stores transaction type codes used in Coretax system
+	to classify different types of tax invoice transactions.
+	"""
+
 	pass

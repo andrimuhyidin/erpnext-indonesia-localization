@@ -11,6 +11,13 @@ from frappe.utils import now
 # Use frappe.enqueue() directly for v16 compatibility instead of importing enqueue
 
 class TaxInvoiceNumberImporter(Document):
+	"""
+	Tax Invoice Number Importer for bulk NOFA uploads.
+	
+	Handles importing of tax invoice numbers (NOFA) from DJP
+	in bulk for allocation to sales invoices.
+	"""
+
 	@frappe.whitelist()
 	def insert_tax_invoice_number(self):
 		frappe.enqueue(

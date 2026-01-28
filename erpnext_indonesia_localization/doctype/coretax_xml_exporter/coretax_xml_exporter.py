@@ -9,6 +9,13 @@ from erpnext_indonesia_localization.utils.validation.coretax_validator import va
 
 
 class CoretaxXMLExporter(Document):
+	"""
+	Coretax XML Exporter for VAT Output (PPN Keluaran).
+	
+	Generates XML files in the format required by Indonesia's
+	Coretax system for bulk sales invoice uploads to DJP.
+	"""
+
 	def before_submit(self):
 		self.status = "In Process"
 		self.export_xml()

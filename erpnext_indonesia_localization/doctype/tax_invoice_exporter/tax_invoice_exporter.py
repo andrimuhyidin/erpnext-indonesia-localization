@@ -26,6 +26,13 @@ from frappe.utils import floor, ceil, flt, cstr
 
 
 class TaxInvoiceExporter(Document):
+	"""
+	Tax Invoice Exporter for e-Faktur CSV generation.
+	
+	Generates CSV files in the format required by the Indonesian
+	e-Faktur application for bulk tax invoice uploads to DJP.
+	"""
+
 	def validate(self):
 		for si in self.sales_invoices:
 			# Refactored to QueryBuilder

@@ -8,6 +8,13 @@ from frappe.utils import flt
 
 
 class SPTMasaPPN(Document):
+	"""
+	SPT Masa PPN (Monthly VAT Return) for Indonesian tax reporting.
+	
+	Generates monthly VAT reconciliation reports comparing VAT Output
+	(PPN Keluaran) against VAT Input (PPN Masukan) for DJP submission.
+	"""
+
 	@frappe.whitelist()
 	def generate_spt(self):
 		"""

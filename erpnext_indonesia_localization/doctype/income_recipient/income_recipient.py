@@ -8,6 +8,13 @@ import re
 
 
 class IncomeRecipient(Document):
+	"""
+	Income Recipient for e-Bupot withholding tax documents.
+	
+	Stores recipient information for withholding tax certificates
+	including NPWP, NIK, and contact details for tax reporting.
+	"""
+
 	def validate(self):
 		errors = []
 		

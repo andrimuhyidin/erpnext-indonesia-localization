@@ -16,7 +16,7 @@ except ImportError:
 	except ImportError:
 		# If direct import fails, define a wrapper function
 		def read_xlsx_file_from_attached_file(file_url):
-			"""Fallback function if import fails"""
+			"""Fallback function if import fails."""
 			import openpyxl
 			from frappe.utils import get_site_path
 			import os
@@ -43,6 +43,13 @@ except ImportError:
 
 
 class CoreTaxImporter(Document):
+	"""
+	Coretax Importer for bulk reference data uploads.
+	
+	Handles importing of Coretax reference data from Excel files
+	including unit references, transaction codes, and other master data.
+	"""
+
 	@frappe.whitelist()
 	def generate_preview(self, file):
 		data = read_xlsx_file_from_attached_file(file_url=file)

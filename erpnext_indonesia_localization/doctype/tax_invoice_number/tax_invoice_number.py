@@ -8,6 +8,13 @@ from erpnext_indonesia_localization.utils.data import get_tax_prefix_code
 
 
 class TaxInvoiceNumber(Document):
+	"""
+	Tax Invoice Number (Nomor Faktur Pajak) for Indonesian VAT invoices.
+	
+	Manages the allocation and tracking of tax invoice numbers (NOFA)
+	provided by the Indonesian tax authority (DJP) for e-Faktur compliance.
+	"""
+
 	def rollback_tin_to_available(self, si_doc):
 		self.tax_invoice_number = self.name
 		self.status = "Available"

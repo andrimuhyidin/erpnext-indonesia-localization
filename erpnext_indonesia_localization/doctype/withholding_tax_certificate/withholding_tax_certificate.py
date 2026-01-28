@@ -8,6 +8,13 @@ import re
 
 
 class WithholdingTaxCertificate(Document):
+	"""
+	Withholding Tax Certificate (Bukti Potong) for Indonesian tax compliance.
+	
+	Manages withholding tax certificates (e-Bupot) issued for Article 21/22/23/26
+	income tax withheld from payments to suppliers or employees.
+	"""
+
 	def validate(self):
 		# Validate NPWP format
 		if self.supplier_npwp:

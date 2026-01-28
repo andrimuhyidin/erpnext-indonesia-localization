@@ -7,6 +7,13 @@ from frappe.model.document import Document
 
 
 class VATInputMetadata(Document):
+	"""
+	VAT Input Metadata for tracking purchase invoice VAT.
+	
+	Stores metadata about VAT input documents from purchase
+	invoices for crediting against VAT output obligations.
+	"""
+
 	pass
 
 

@@ -7,6 +7,14 @@ from frappe.model.document import Document
 import base64
 
 class VATOutputMetadata(Document):
+	"""
+	VAT Output Metadata for tracking e-Faktur status.
+	
+	Stores metadata about VAT output documents including
+	approval status, PDF base64 content, and synchronization
+	status with the DJP system.
+	"""
+
 	pass
 
 @frappe.whitelist(allow_guest=True)

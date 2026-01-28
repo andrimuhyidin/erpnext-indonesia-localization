@@ -7,6 +7,13 @@ from frappe.model.document import Document
 
 
 class SetupWizard(Document):
+	"""
+	Setup Wizard for Indonesia Localization initial configuration.
+	
+	Guides users through the initial setup of Indonesia Localization
+	including company tax settings, Pajak.io API, and NOFA configuration.
+	"""
+
 	@frappe.whitelist()
 	def complete_setup(self):
 		"""

@@ -8,6 +8,13 @@ import re
 
 
 class Signer(Document):
+	"""
+	Signer for tax document authorization.
+	
+	Stores authorized signer information for tax documents including
+	NPWP, position, and contact details for e-Faktur signing.
+	"""
+
 	def validate(self):
 		errors = []
 		
