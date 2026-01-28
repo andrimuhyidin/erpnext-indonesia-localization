@@ -158,7 +158,7 @@
    "format": "{} tanpa NPWP",
    "label": "Lihat Customer",
    "link_to": "Customer",
-   "stats_filter": "[[\"Customer\",\"tax_id\",\"is\",\"not set\",false]]",
+   "stats_filter": "[[\"Customer\",\"tax_id\",\"is\",\"not set\"]]",
    "type": "DocType"
   },
   {
@@ -167,7 +167,7 @@
    "format": "{} tanpa Faktur Pajak",
    "label": "Lihat Invoice",
    "link_to": "Sales Invoice",
-   "stats_filter": "[[\"Sales Invoice\",\"tax_id\",\"is\",\"set\",false],[\"Sales Invoice\",\"tax_invoice_number\",\"is\",\"not set\",false],[\"Sales Invoice\",\"docstatus\",\"=\",\"1\",false]]",
+   "stats_filter": "[[\"Sales Invoice\",\"tax_id\",\"is\",\"set\"],[\"Sales Invoice\",\"tax_invoice_number\",\"is\",\"not set\"],[\"Sales Invoice\",\"docstatus\",\"=\",\"1\"]]",
    "type": "DocType"
   },
   {

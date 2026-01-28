@@ -5,7 +5,7 @@
  "doctype": "Number Card",
  "document_type": "VAT Output Metadata",
  "dynamic_filters_json": "[[\"VAT Output Metadata\",\"modified\",\"Timespan\",\"today\"]]",
- "filters_json": "[[\"VAT Output Metadata\",\"vat_upload_success\",\"=\",1,false]]",
+ "filters_json": "[[\"VAT Output Metadata\",\"vat_upload_success\",\"=\",1]]",
  "function": "Count",
  "idx": 0,
  "is_public": 1,

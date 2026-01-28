@@ -5,7 +5,7 @@
  "doctype": "Number Card",
  "document_type": "Sales Invoice",
  "dynamic_filters_json": "[]",
- "filters_json": "[[\"Sales Invoice\",\"tax_id\",\"is\",\"set\",false],[\"Sales Invoice\",\"tax_invoice_number\",\"is\",\"not set\",false],[\"Sales Invoice\",\"docstatus\",\"=\",\"1\",false]]",
+ "filters_json": "[[\"Sales Invoice\",\"tax_id\",\"is\",\"set\"],[\"Sales Invoice\",\"tax_invoice_number\",\"is\",\"not set\"],[\"Sales Invoice\",\"docstatus\",\"=\",\"1\"]]",
  "function": "Count",
  "idx": 0,
  "is_public": 1,

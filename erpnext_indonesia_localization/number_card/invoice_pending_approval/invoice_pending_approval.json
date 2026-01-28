@@ -5,7 +5,7 @@
  "doctype": "Number Card",
  "document_type": "VAT Output Metadata",
  "dynamic_filters_json": "[]",
- "filters_json": "[[\"VAT Output Metadata\",\"status\",\"=\",\"To Be Reviewed\",false]]",
+ "filters_json": "[[\"VAT Output Metadata\",\"status\",\"=\",\"To Be Reviewed\"]]",
  "function": "Count",
  "idx": 0,
  "is_public": 1,

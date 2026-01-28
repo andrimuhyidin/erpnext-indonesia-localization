@@ -5,7 +5,7 @@
  "doctype": "Number Card",
  "document_type": "Sales Invoice",
  "dynamic_filters_json": "[]",
- "filters_json": "[[\"Sales Invoice\",\"coretax_status\",\"=\",\"APPROVED\",false]]",
+ "filters_json": "[[\"Sales Invoice\",\"coretax_status\",\"=\",\"APPROVED\"]]",
  "function": "Count",
  "idx": 0,
  "is_public": 1,

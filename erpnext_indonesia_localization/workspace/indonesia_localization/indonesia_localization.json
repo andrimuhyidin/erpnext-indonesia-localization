@@ -105,7 +105,7 @@
    "format": "{} tertunda",
    "label": "Unduh Faktur Pajak",
    "link_to": "Tax Invoice Exporter",
-   "stats_filter": "[[\"Tax Invoice Exporter\",\"docstatus\",\"=\",\"0\",false]]",
+   "stats_filter": "[[\"Tax Invoice Exporter\",\"docstatus\",\"=\",\"0\"]]",
    "type": "DocType"
   },
   {
@@ -114,7 +114,7 @@
    "format": "{} tanpa NPWP",
    "label": "Lihat Customer",
    "link_to": "Customer",
-   "stats_filter": "[[\"Customer\",\"tax_id\",\"is\",\"not set\",false]]",
+   "stats_filter": "[[\"Customer\",\"tax_id\",\"is\",\"not set\"]]",
    "type": "DocType"
   },
   {
@@ -123,7 +123,7 @@
    "format": "{} tanpa Nofa",
    "label": "Lihat Invoice",
    "link_to": "Sales Invoice",
-   "stats_filter": "[[\"Sales Invoice\",\"tax_id\",\"is\",\"set\",false],[\"Sales Invoice\",\"tax_invoice_number\",\"is\",\"not set\",false]]",
+   "stats_filter": "[[\"Sales Invoice\",\"tax_id\",\"is\",\"set\"],[\"Sales Invoice\",\"tax_invoice_number\",\"is\",\"not set\"]]",
    "type": "DocType"
   },
   {

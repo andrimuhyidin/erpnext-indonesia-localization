@@ -5,7 +5,7 @@
  "doctype": "Number Card",
  "document_type": "VAT Output Metadata",
  "dynamic_filters_json": "[]",
- "filters_json": "[[\"VAT Output Metadata\",\"status\",\"=\",\"Approved\",false],[\"VAT Output Metadata\",\"vat_upload_success\",\"=\",0,false],[\"VAT Output Metadata\",\"transactionid\",\"!=\",\"\",false]]",
+ "filters_json": "[[\"VAT Output Metadata\",\"status\",\"=\",\"Approved\"],[\"VAT Output Metadata\",\"vat_upload_success\",\"=\",0],[\"VAT Output Metadata\",\"transactionid\",\"!=\",\"\"]]",
  "function": "Count",
  "idx": 0,
  "is_public": 1,
