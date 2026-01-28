@@ -87,7 +87,12 @@ def apply_custom_shipping_charge(cost, description):
 	"""
 	Apply a custom shipping charge to the current cart's quotation.
 	This creates a temporary Shipping Rule or updates the quotation charges.
+	Requires webshop app to be installed.
 	"""
+	# Check if webshop is installed
+	if "webshop" not in frappe.get_installed_apps():
+		frappe.throw(_("Webshop app is required for shipping integration"))
+	
 	from webshop.webshop.shopping_cart.cart import _get_cart_quotation
 	
 	quotation = _get_cart_quotation()
@@ -120,5 +125,6 @@ def apply_custom_shipping_charge(cost, description):
 	quotation.flags.ignore_permissions = True
 	quotation.save()
 	
+	# Import here after webshop check above
 	from webshop.webshop.shopping_cart.cart import get_cart_quotation
 	return get_cart_quotation(quotation)
