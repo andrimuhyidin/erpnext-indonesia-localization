@@ -89,10 +89,26 @@ def export_xml(invoice_docs, company_doc, doc):
 		frappe.set_value("Coretax XML Exporter", doc.name, "status", "Succeed")
 
 		return "Succeed"
-	except Exception:
+	except frappe.ValidationError as e:
 		frappe.set_value("Coretax XML Exporter", doc.name, "status", "Failed")
-		frappe.log_error(title=f"CoreTax XML Exporter Error on {doc.name}", message=frappe.get_traceback())
-
+		frappe.log_error(
+			title=f"CoreTax XML Exporter Validation Error on {doc.name}",
+			message=f"Validation failed: {str(e)}\n\n{frappe.get_traceback()}"
+		)
+		return "Failed"
+	except IOError as e:
+		frappe.set_value("Coretax XML Exporter", doc.name, "status", "Failed")
+		frappe.log_error(
+			title=f"CoreTax XML Exporter File Error on {doc.name}",
+			message=f"File operation failed: {str(e)}\n\n{frappe.get_traceback()}"
+		)
+		return "Failed"
+	except Exception as e:
+		frappe.set_value("Coretax XML Exporter", doc.name, "status", "Failed")
+		frappe.log_error(
+			title=f"CoreTax XML Exporter Error on {doc.name}",
+			message=f"Unexpected error: {str(e)}\n\n{frappe.get_traceback()}"
+		)
 		return "Failed"
 
 

@@ -8,6 +8,64 @@ from requests.exceptions import RequestException, Timeout, ConnectionError, HTTP
 from frappe import _
 from erpnext_indonesia_localization.utils.api.pajakio_helper import get_pajakio_headers, make_pajakio_request, get_pajakio_url
 
+
+def _check_delete_permission(doctype, doc_name=None):
+	"""
+	Check if user has permission to delete tax documents.
+	
+	Security: Verifies user has delete permission before allowing
+	tax document deletion via API.
+	
+	Args:
+		doctype: The DocType to check permission for
+		doc_name: Optional document name for document-level permission
+		
+	Raises:
+		frappe.PermissionError: If user lacks delete permission
+	"""
+	if frappe.session.user == "Guest":
+		frappe.throw(_("Authentication required for this operation"))
+	
+	if not frappe.has_permission(doctype, "delete", doc_name):
+		frappe.throw(
+			_("You do not have permission to delete {0}").format(doctype),
+			frappe.PermissionError
+		)
+
+
+def _check_verification_rate_limit(api_name: str, limit_per_minute: int = 10) -> bool:
+	"""
+	Check rate limit for verification APIs to prevent abuse.
+	
+	Security: Limits verification API calls per user to prevent
+	brute-force NPWP/NIK discovery attacks.
+	
+	Args:
+		api_name: Name of the API being called (e.g., 'verify_npwp')
+		limit_per_minute: Maximum calls per minute (default 10)
+		
+	Raises:
+		frappe.ValidationError: If rate limit exceeded
+	"""
+	from frappe.utils import cint
+	
+	user = frappe.session.user
+	cache_key = f"verification_rate_limit:{api_name}:{user}"
+	current_count = cint(frappe.cache.get(cache_key) or 0)
+	
+	if current_count >= limit_per_minute:
+		frappe.log_error(
+			f"Verification rate limit exceeded: {api_name} by {user} ({current_count} calls)",
+			"API Rate Limit"
+		)
+		frappe.throw(
+			_("Rate limit exceeded. Please wait a minute before trying again."),
+			frappe.ValidationError
+		)
+	
+	# Increment counter with 60 second expiry
+	frappe.cache.set(cache_key, current_count + 1, expires_in_sec=60)
+
 @frappe.whitelist()
 def create_vat_output(doc):
 	"""
@@ -439,8 +497,14 @@ def verify_npwp(npwp: str) -> Dict[str, Any]:
 			"message": str,
 			"data": dict (if valid)
 		}
+		
+	Security:
+		Rate limited to prevent brute-force discovery attacks
 	"""
 	import re
+	
+	# Security: Check rate limit
+	_check_verification_rate_limit("verify_npwp")
 	
 	# Clean NPWP format
 	npwp_clean = re.sub(r'[.\-]', '', str(npwp))
@@ -511,8 +575,14 @@ def verify_nik(nik: str) -> Dict[str, Any]:
 			"message": str,
 			"data": dict (if valid)
 		}
+		
+	Security:
+		Rate limited to prevent brute-force discovery attacks
 	"""
 	import re
+	
+	# Security: Check rate limit
+	_check_verification_rate_limit("verify_nik")
 	
 	# Clean NIK format
 	nik_clean = re.sub(r'[.\-]', '', str(nik))
@@ -674,7 +744,14 @@ def delete_vat_output(doc):
 		
 	Returns:
 		API response dictionary
+		
+	Security:
+		Requires delete permission on VAT Output Metadata
 	"""
+	# Security: Check delete permission
+	doc_name = doc if isinstance(doc, str) else doc.name
+	_check_delete_permission("VAT Output Metadata", doc_name)
+	
 	if isinstance(doc, str):
 		doc = frappe.get_doc("VAT Output Metadata", doc)
 	
@@ -758,7 +835,13 @@ def delete_multiple_vat_output(transaction_ids):
 		
 	Returns:
 		API response dictionary
+		
+	Security:
+		Requires delete permission on VAT Output Metadata
 	"""
+	# Security: Check delete permission
+	_check_delete_permission("VAT Output Metadata")
+	
 	if not transaction_ids or not isinstance(transaction_ids, list):
 		raise frappe.ValidationError(_("Transaction IDs list is required"))
 	
@@ -1069,7 +1152,14 @@ def delete_vat_input(doc):
 		
 	Returns:
 		API response dictionary
+		
+	Security:
+		Requires delete permission on VAT Input Metadata
 	"""
+	# Security: Check delete permission
+	doc_name = doc if isinstance(doc, str) else doc.name
+	_check_delete_permission("VAT Input Metadata", doc_name)
+	
 	if isinstance(doc, str):
 		doc = frappe.get_doc("VAT Input Metadata", doc)
 	
@@ -1404,7 +1494,14 @@ def delete_withholding_tax(doc):
 		
 	Returns:
 		API response dictionary
+		
+	Security:
+		Requires delete permission on Withholding Tax Certificate
 	"""
+	# Security: Check delete permission
+	doc_name = doc if isinstance(doc, str) else doc.name
+	_check_delete_permission("Withholding Tax Certificate", doc_name)
+	
 	if isinstance(doc, str):
 		doc = frappe.get_doc("Withholding Tax Certificate", doc)
 	
@@ -1648,7 +1745,13 @@ def delete_income_recipient(recipient_id):
 		
 	Returns:
 		API response dictionary
+		
+	Security:
+		Requires delete permission on Income Recipient
 	"""
+	# Security: Check delete permission
+	_check_delete_permission("Income Recipient")
+	
 	try:
 		url = get_pajakio_url('url_delete_income_recipient') + "/" + str(recipient_id)
 		headers = get_pajakio_headers()
@@ -2043,7 +2146,14 @@ def delete_vat_output_return(doc):
 		
 	Returns:
 		API response dictionary
+		
+	Security:
+		Requires delete permission on VAT Output Return
 	"""
+	# Security: Check delete permission
+	doc_name = doc if isinstance(doc, str) else doc.name
+	_check_delete_permission("VAT Output Return", doc_name)
+	
 	if isinstance(doc, str):
 		doc = frappe.get_doc("VAT Output Return", doc)
 	
