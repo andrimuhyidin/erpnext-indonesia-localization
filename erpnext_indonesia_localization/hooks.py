@@ -181,6 +181,9 @@ doc_events = {
 	},
 	"Sales Invoice": {
 		"on_update": "erpnext_indonesia_localization.utils.audit.log_tax_invoice_number_link"
+	},
+	"Address": {
+		"validate": "erpnext_indonesia_localization.doc_events.address.validate_address_hierarchy"
 	}
 }
 
@@ -337,10 +340,16 @@ fixtures = [
 					"Sales Taxes and Charges Template-custom_coretax",
 					"Company-custom_use_company_nitku",
 					"Company-custom_companys_nitku",
+					"Address-custom_rajaongkir_city_id",
+					"Address-custom_rajaongkir_district_id",
 					"Sales Invoice-custom_coretax_tab",
 					"Sales Invoice-custom_tax_custom_document_period" ,
 					"Sales Invoice Item-custom_column_break_tuznn",
-					"Sales Invoice Item-custom_kode_barang_jasa_opt"
+					"Sales Invoice Item-custom_kode_barang_jasa_opt",
+					"Webshop Settings-custom_whatsapp_inquiry_number",
+					"Webshop Settings-custom_enable_whatsapp_inquiry",
+					"Sales Order-custom_tracking_number",
+					"Sales Invoice-custom_tracking_number"
 				]
 			]
 		]
